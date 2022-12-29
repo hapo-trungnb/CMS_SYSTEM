@@ -1,33 +1,50 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Models;
 
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class HomeController extends Controller
+
+class User extends Authenticatable
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('auth');
-    }
 
     /**
-     * Show the application dashboard.
+     * The attributes that are mass assignable.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @var array
      */
-    public function index()
-    {
-        return view('home');
-    }
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
 
-    public function admin()
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    // Info This tells makes the user have many posts relationship
+    public function posts(): HasMany
     {
-        return view('admin.index');
+        return $this->hasMany(Post::class);
     }
 }
