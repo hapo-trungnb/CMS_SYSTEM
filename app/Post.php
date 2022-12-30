@@ -9,8 +9,8 @@ class Post extends Model
     // protected $fillable = ['title', 'post_img', 'body'];
     protected $guarded = [];
 
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo(User::class);
     }
 }
